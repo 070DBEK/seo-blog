@@ -1,0 +1,27 @@
+
+{% extends 'base.html' %}
+
+{% block title %} Yangi Muallif Qo'shish {% endblock %}
+
+{% block content %}
+
+            <section class="create-author-form">
+                <h2>Yangi Muallif Qo'shish</h2>
+                <form action="/submit-author" method="post">
+                    <div class="form-group">
+                        <label for="name">Ism:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bio">Biografiya:</label>
+                        <textarea id="bio" name="bio" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <button type="submit" class="submit-button">Muallifni Qo'shish</button>
+                </form>
+            </section>
+
+{% endblock %}
