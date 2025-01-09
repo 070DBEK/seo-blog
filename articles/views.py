@@ -11,15 +11,38 @@ def create_author(request):
         name = request.POST.get('name')
         bio = request.POST.get('bio')
         email = request.POST.get('email')
+
         if name and bio and email:
             Author.objects.create(
                 name=name,
                 bio=bio,
                 email=email,
             )
-            return redirect('authors:home')
-    return render(request, 'authors/create-authors.html')
+            return redirect('articles:home')
 
+    return render(request, 'articles/create-author.html')
+
+
+def create_article(request):
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        content = request.POST.get('content')
+        author_id = request.POST.get('author')
+        image = request.FILES.get('image')
+
+        # Maqola yaratish uchun kerakli ma'lumotlar
+        if title and content and author_id:
+            author = Author.objects.get(id=author_id)  # Muallifni topish
+            Article.objects.create(
+                title=title,
+                content=content,
+                author=author,
+                image=image
+            )
+            return redirect('articles:home')
+
+    authors = Author.objects.all()  # Barcha mualliflarni olish
+    return render(request, 'articles/create-article.html', {'authors': authors})
 
 
 def author_detail(request, year, month, day, slug):

@@ -1,10 +1,10 @@
 
         <nav>
-            <a href="index.html">Asosiy</a>
+            <a href="{% url 'home' %}">Asosiy</a>
             <a href="#">Web Dasturlash</a>
             <a href="#">Mobil Dasturlash</a>
             <a href="#">AI va ML</a>
             <a href="#">Dasturchilar hayoti</a>
-            <a href="create-author.html">Yangi Muallif Qo'shish</a>
-            <a href="create-article.html">Yangi Maqola Qo'shish</a>
+            <a href="{% url 'articles:add-author' %}">Yangi Muallif Qo'shish</a>
+            <a href="{% url 'articles:add-article' %}">Yangi Maqola Qo'shish</a>
         </nav>

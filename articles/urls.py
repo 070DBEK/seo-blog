@@ -6,6 +6,6 @@ app_name = 'articles'
 
 
 urlpatterns = [
-    path('list-author/', views.authors_list, name='list-author'),
-    path('list-article/', views.articles_list, name='list-article'),
+    path('add-author/', views.create_author, name='add-author'),
+    path('add-article/', views.create_article, name='add-article'),
 ]

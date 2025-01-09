@@ -57,7 +57,9 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [
+            BASE_DIR / 'templates',
+                 ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -120,10 +122,8 @@ USE_TZ = True
 
 
 STATIC_URL = '/static/'
-
-# Agar sizning static fayllaringizni boshqa joyda saqlamoqchi bo'lsangiz, quyidagi satrni qo'shing:
-STATICFILES_DIRS = [
-    BASE_DIR / "static",  # Bu yerda static fayllarni saqlashingiz mumkin
+STATICFILES_DIRS=[
+    BASE_DIR / 'static'
 ]
 
 # Default primary key field type

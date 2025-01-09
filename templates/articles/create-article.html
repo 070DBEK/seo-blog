@@ -7,7 +7,7 @@
 
 <section class="create-article-form">
     <h2>Yangi Maqola Qo'shish</h2>
-    <form action="/submit-article" method="post" enctype="multipart/form-data">
+    <form action="{% url 'articles:add-article' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-group">
             <label for="title">Sarlavha:</label>
@@ -21,17 +21,18 @@
             <label for="author">Muallif:</label>
             <select id="author" name="author" required>
                 <option value="">Muallifni tanlang</option>
-                <option value="1">Aziz Karimov</option>
-                <option value="2">Malika Umarova</option>
-                <option value="3">Bobur Aliyev</option>
+                {% for author in authors %}
+                    <option value="{{ author.id }}">{{ author.name }}</option>
+                {% endfor %}
             </select>
         </div>
         <div class="form-group">
             <label for="image">Rasm:</label>
-            <input type="file" id="image" name="image" accept="image/*" required>
+            <input type="file" id="image" name="image" accept="image/*">
         </div>
         <button type="submit" class="submit-button">Maqolani Qo'shish</button>
     </form>
 </section>
+
 
 {% endblock %}
