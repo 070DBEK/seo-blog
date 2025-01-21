@@ -10,7 +10,9 @@
     <title>Yangi Muallif Qo'shish - Zamonaviy Dasturchi</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
+
 <body class="page-container">
+
     <header class="glass-effect">
         {# NAVIGATION BAR #}
         {% include 'includes/nav.html' %}
@@ -29,5 +31,17 @@
     {% include 'includes/footer.html' %}
 
     <button id="mode-toggle">Tungi rejim</button>
+
+    <script src="{% static 'js/scripts.js' %}">
+        const modeToggle = document.getElementById('mode-toggle');
+        const body = document.body;
+
+        modeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            const isDarkMode = body.classList.contains('dark-mode');
+            modeToggle.textContent = isDarkMode ? 'Kunduzgi rejim' : 'Tungi rejim';
+        });
+    </script>
+
 </body>
 </html>

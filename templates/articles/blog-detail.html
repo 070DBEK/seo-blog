@@ -1,119 +1,66 @@
-
 {% extends 'base.html' %}
 
 {% block title %} Yangi Muallif Qo'shish {% endblock %}
 
 {% block content %}
 
-            <article class="post-content">
-                <img src="https://c4.wallpaperflare.com/wallpaper/1014/266/488/python-programming-blue-green-wallpaper-preview.jpg" alt="React Hooks" class="post-image">
-                <div class="post-meta">
-                    <span>Muallif: Aziz Karimov</span>
-                    <span>Sana: 15 Iyun, 2023</span>
-                </div>
-                <h1>React Hooks: Funksional Komponentlar Kuchi</h1>
-                <p>React Hooks - bu React 16.8 versiyasida taqdim etilgan yangi xususiyat bo'lib, u funksional komponentlarga state va boshqa React xususiyatlaridan foydalanish imkonini beradi. Keling, eng ko'p ishlatiladigan hooklarni ko'rib chiqaylik.</p>
-                
-                <h2>1. useState Hook</h2>
-                <p>useState hook funksional komponentlarga state qo'shish imkonini beradi. Mana oddiy misol:</p>
-                <pre><code>
-import React, { useState } from 'react';
+<article class="post-content">
+    <img src="{{ article.image.url }}" alt="React Hooks" class="post-image">
+    <div class="post-meta">
+        <span>Muallif: {{ article.author }}</span>
+        <span>Sana: {{ article.created_at }}</span>
+    </div>
 
-function Counter() {
-  const [count, setCount] = useState(0);
+    <h1>{{ article.short_text }}</h1>
+    <p>{{ article.long_text }}</p>
 
-  return (
-    &lt;div&gt;
-      &lt;p&gt;Siz {count} marta bosdingiz&lt;/p&gt;
-      &lt;button onClick={() => setCount(count + 1)}&gt;
-        Bosing
-      &lt;/button&gt;
-    &lt;/div&gt;
-  );
-}
-                </code></pre>
+<section class="comments">
+    <h2>Izohlar</h2>
+    {% for comment in article.comment_set.all %}
+        <div class="comment">
+            <h3>{{ comment.short_text }}</h3>
+            <p>{{ comment.long_text }}</p>
+        </div>
+    {% empty %}
+        <p>Izohlar yo'q.</p>
+    {% endfor %}
 
-                <h2>2. useEffect Hook</h2>
-                <p>useEffect hook komponentning hayot sikli metodlarini almashtirishga imkon beradi. U komponent render bo'lgandan keyin ishga tushadi:</p>
-                <pre><code>
-import React, { useState, useEffect } from 'react';
 
-function Example() {
-  const [count, setCount] = useState(0);
+<form class="comment-form" method="post">
+    {% csrf_token %}
+    <h3>Izoh qoldirish</h3>
+    <input type="hidden" name="article" value="{{ article.id }}">
+    <div>
+        <label for="short_text">Ismingiz:</label>
+        <input type="text" id="short_text" name="short_text" required>
+    </div>
+    <div>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+    </div>
+    <div>
+        <label for="long_text">Izohingiz:</label>
+        <textarea id="long_text" name="long_text" required></textarea>
+    </div>
+    <button type="submit">Yuborish</button>
+</form>
 
-  useEffect(() => {
-    document.title = `Siz ${count} marta bosdingiz`;
-  });
+</section>
 
-  return (
-    &lt;div&gt;
-      &lt;p&gt;Siz {count} marta bosdingiz&lt;/p&gt;
-      &lt;button onClick={() => setCount(count + 1)}&gt;
-        Bosing
-      &lt;/button&gt;
-    &lt;/div&gt;
-  );
-}
-                </code></pre>
-
-                <h2>3. useContext Hook</h2>
-                <p>useContext hook kontekst qiymatlarini olish uchun ishlatiladi:</p>
-                <pre><code>
-import React, { useContext } from 'react';
-
-const ThemeContext = React.createContext('light');
-
-function ThemedButton() {
-  const theme = useContext(ThemeContext);
-  return &lt;button style={{ background: theme }}&gt;Men themed buttonman&lt;/button&gt;;
-}
-                </code></pre>
-
-                <p>React Hooks funksional komponentlarga yangi imkoniyatlar beradi va kodingizni ancha soddalashtirishga yordam beradi. Ularni o'rganish va amalda qo'llash orqali siz yanada samaraliroq React dasturlarini yaratishingiz mumkin.</p>
-            </article>
-
-            <section class="comments">
-                <h2>Izohlar</h2>
-                <div class="comment">
-                    <h3>Bobur Aliyev</h3>
-                    <p>Ajoyib maqola! useState hook haqida ko'proq misollar ko'rsatsangiz zo'r bo'lardi.</p>
-                </div>
-                <div class="comment">
-                    <h3>Malika Umarova</h3>
-                    <p>useEffect hookni tushunish biroz qiyin bo'lyapti. Bu haqda alohida maqola yozsangiz yaxshi bo'lardi.</p>
-                </div>
-                <form class="comment-form" action="success-commented.html">
-                    <h3>Izoh qoldirish</h3>
-                    <div>
-                        <label for="name">Ismingiz:</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-                    <div>
-                        <label for="email">Email:</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <div>
-                        <label for="comment">Izohingiz:</label>
-                        <textarea id="comment" name="comment" required></textarea>
-                    </div>
-                    <button type="submit">Yuborish</button>
-                </form>
-            </section>
-
-            <h2>O'xshash Maqolalar</h2>
-            <section class="related-posts">
-                <div class="related-post">
-                    <img src="https://c4.wallpaperflare.com/wallpaper/1014/266/488/python-programming-blue-green-wallpaper-preview.jpg" alt="React Performance">
-                    <h3>React ilovalar ishlashini optimallash</h3>
-                </div>
-                <div class="related-post">
-                    <img src="https://c4.wallpaperflare.com/wallpaper/1014/266/488/python-programming-blue-green-wallpaper-preview.jpg" alt="Custom Hooks">
-                    <h3>O'z React hooklaringizni yarating</h3>
-                </div>
-                <div class="related-post">
-                    <img src="https://c4.wallpaperflare.com/wallpaper/1014/266/488/python-programming-blue-green-wallpaper-preview.jpg" alt="React Native">
-                    <h3>React Native bilan mobil ilovalar yaratish</h3>
-                </div>
-            </section>
+<h2>O'xshash Maqolalar</h2>
+<section class="related-posts">
+    <div class="related-post">
+        <img src="https://c4.wallpaperflare.com/wallpaper/1014/266/488/python-programming-blue-green-wallpaper-preview.jpg" alt="React Performance">
+        <h3>React ilovalar ishlashini optimallash</h3>
+    </div>
+    <div class="related-post">
+        <img src="https://c4.wallpaperflare.com/wallpaper/1014/266/488/python-programming-blue-green-wallpaper-preview.jpg" alt="Custom Hooks">
+        <h3>O'z React hooklaringizni yarating</h3>
+    </div>
+    <div class="related-post">
+        <img src="https://c4.wallpaperflare.com/wallpaper/1014/266/488/python-programming-blue-green-wallpaper-preview.jpg" alt="React Native">
+        <h3>React Native bilan mobil ilovalar yaratish</h3>
+    </div>
+</section>
 
 {% endblock %}

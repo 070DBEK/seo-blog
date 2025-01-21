@@ -7,22 +7,22 @@
 
 <section class="create-article-form">
     <h2>Yangi Maqola Qo'shish</h2>
-    <form action="{% url 'articles:add-article' %}" method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-group">
-            <label for="title">Sarlavha:</label>
-            <input type="text" id="title" name="title" required>
+            <label for="short_text">Sarlavha:</label>
+            <input type="text" id="short_text" name="short_text" required>
         </div>
         <div class="form-group">
-            <label for="content">Maqola matni:</label>
-            <textarea id="content" name="content" required></textarea>
+            <label for="long_text">Maqola matni:</label>
+            <textarea id="long_text" name="long_text" required></textarea>
         </div>
         <div class="form-group">
             <label for="author">Muallif:</label>
             <select id="author" name="author" required>
                 <option value="">Muallifni tanlang</option>
                 {% for author in authors %}
-                    <option value="{{ author.id }}">{{ author.name }}</option>
+                    <option value="{{ author.id }}">{{ author.short_text }}</option>
                 {% endfor %}
             </select>
         </div>
