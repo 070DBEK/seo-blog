@@ -3,14 +3,17 @@
 {% block title %} Home {% endblock %}
 
 {% block content %}
-    {% for article in articles %}
-        <article class="post">
-            <img src="{{ article.image.url }}" alt="{{ article.short_text }}">
-            <h2>{{ article.short_text }}</h2>
-            <p>{{ article.long_text|truncatewords:30 }}</p>  <!-- Uzun matnni qisqartirish -->
-            <a href="{% url 'articles:article-detail' article.created_at.year article.created_at.month article.created_at.day article.slug %}" class="read-more">Batafsil o'qish</a>
-        </article>
-    {% empty %}
-        <p>Hozircha maqolalar mavjud emas.</p>
-    {% endfor %}
+
+{% for article in articles %}
+    <article class="post">
+        <img src="{{ article.image.url }}" alt="{{ article.short_text }}">
+        <h2>{{ article.short_text }}</h2>
+        <a href="{% url 'articles:article_detail' year=article.created_at.year month=article.created_at.month day=article.created_at.day slug=article.slug %}" class="read-more">
+            Batafsil o'qish
+        </a>
+    </article>
+{% empty %}
+    <p>Hozircha maqolalar mavjud emas.</p>
+{% endfor %}
+
 {% endblock %}

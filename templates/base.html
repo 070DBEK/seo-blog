@@ -32,14 +32,17 @@
 
     <button id="mode-toggle">Tungi rejim</button>
 
-    <script src="{% static 'js/scripts.js' %}">
-        const modeToggle = document.getElementById('mode-toggle');
-        const body = document.body;
+    <script src="{% static 'js/scripts.js' %}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const modeToggle = document.getElementById('mode-toggle');
+            const body = document.body;
 
-        modeToggle.addEventListener('click', () => {
-            body.classList.toggle('dark-mode');
-            const isDarkMode = body.classList.contains('dark-mode');
-            modeToggle.textContent = isDarkMode ? 'Kunduzgi rejim' : 'Tungi rejim';
+            modeToggle.addEventListener('click', () => {
+                body.classList.toggle('dark-mode');
+                const isDarkMode = body.classList.contains('dark-mode');
+                modeToggle.textContent = isDarkMode ? 'Kunduzgi rejim' : 'Tungi rejim';
+            });
         });
     </script>
 

@@ -1,66 +1,67 @@
 {% extends 'base.html' %}
 
-{% block title %} Yangi Muallif Qo'shish {% endblock %}
+{% block title %} {{ article.short_text }} {% endblock %}
 
 {% block content %}
 
 <article class="post-content">
-    <img src="{{ article.image.url }}" alt="React Hooks" class="post-image">
+    <img src="{{ article.image.url }}" alt="{{ article.short_text }}" class="post-image">
     <div class="post-meta">
         <span>Muallif: {{ article.author }}</span>
-        <span>Sana: {{ article.created_at }}</span>
+        <span>Sana: {{ article.created_at|date:"d M Y" }}</span>
     </div>
 
     <h1>{{ article.short_text }}</h1>
     <p>{{ article.long_text }}</p>
 
-<section class="comments">
-    <h2>Izohlar</h2>
-    {% for comment in article.comment_set.all %}
-        <div class="comment">
-            <h3>{{ comment.short_text }}</h3>
-            <p>{{ comment.long_text }}</p>
-        </div>
-    {% empty %}
-        <p>Izohlar yo'q.</p>
-    {% endfor %}
+    <section class="comments">
+        <h2>Izohlar ({{ article.comment_set.count }})</h2>
+        {% for comment in article.comment_set.all %}
+            <div class="comment">
+                <h3>{{ comment.short_text }}</h3>
+                <p>{{ comment.long_text }}</p>
+            </div>
+        {% empty %}
+            <p>Izohlar yo'q.</p>
+        {% endfor %}
 
+        <form class="comment-form" method="post">
+            {% csrf_token %}
+            <h3>Izoh qoldirish</h3>
+            {% if error %}
+                <p class="error">{{ error }}</p>
+            {% endif %}
+            <input type="hidden" name="article" value="{{ article.id }}">
+            <div>
+                <label for="short_text">Ismingiz:</label>
+                <input type="text" id="short_text" name="short_text" placeholder="Ismingizni kiriting" required>
+            </div>
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Email manzilingizni kiriting" required>
+            </div>
+            <div>
+                <label for="long_text">Izohingiz:</label>
+                <textarea id="long_text" name="long_text" placeholder="Izoh qoldiring" required></textarea>
+            </div>
+            <button type="submit">Yuborish</button>
+        </form>
+    </section>
 
-<form class="comment-form" method="post">
-    {% csrf_token %}
-    <h3>Izoh qoldirish</h3>
-    <input type="hidden" name="article" value="{{ article.id }}">
-    <div>
-        <label for="short_text">Ismingiz:</label>
-        <input type="text" id="short_text" name="short_text" required>
-    </div>
-    <div>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-    </div>
-    <div>
-        <label for="long_text">Izohingiz:</label>
-        <textarea id="long_text" name="long_text" required></textarea>
-    </div>
-    <button type="submit">Yuborish</button>
-</form>
+    <h2>O'xshash Maqolalar</h2>
+    <section class="related-posts">
+        {% for related_article in related_articles %}
+            <div class="related-post">
+                <a href="{{ related_article.get_absolute_url }}">
+                    <img src="{{ related_article.image.url }}" alt="{{ related_article.short_text }}">
+                    <h3>{{ related_article.short_text }}</h3>
+                </a>
+            </div>
+        {% empty %}
+            <p>O'xshash maqolalar topilmadi.</p>
+        {% endfor %}
+    </section>
 
-</section>
-
-<h2>O'xshash Maqolalar</h2>
-<section class="related-posts">
-    <div class="related-post">
-        <img src="https://c4.wallpaperflare.com/wallpaper/1014/266/488/python-programming-blue-green-wallpaper-preview.jpg" alt="React Performance">
-        <h3>React ilovalar ishlashini optimallash</h3>
-    </div>
-    <div class="related-post">
-        <img src="https://c4.wallpaperflare.com/wallpaper/1014/266/488/python-programming-blue-green-wallpaper-preview.jpg" alt="Custom Hooks">
-        <h3>O'z React hooklaringizni yarating</h3>
-    </div>
-    <div class="related-post">
-        <img src="https://c4.wallpaperflare.com/wallpaper/1014/266/488/python-programming-blue-green-wallpaper-preview.jpg" alt="React Native">
-        <h3>React Native bilan mobil ilovalar yaratish</h3>
-    </div>
-</section>
+</article>
 
 {% endblock %}

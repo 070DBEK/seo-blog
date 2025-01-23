@@ -15,8 +15,8 @@ class BaseModel(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.__str__())
-        super().save(*args, **kwargs)
+            self.slug = slugify(self.short_text)
+        super(BaseModel, self).save(*args, **kwargs)
 
 
 class Author(BaseModel):
@@ -24,9 +24,6 @@ class Author(BaseModel):
 
     def __str__(self):
         return self.short_text
-
-    def get_detail_url(self):
-        return reverse('author_detail', args=[self.slug])
 
 
 class Article(BaseModel):
@@ -37,18 +34,16 @@ class Article(BaseModel):
         return self.short_text
 
     def get_detail_url(self):
-        return reverse('article_detail', args=[
-            self.author.slug,
-            self.created_at.year,
-            self.created_at.month,
-            self.created_at.day,
-            self.slug
-        ])
-
+        return reverse('articles:article_detail', kwargs={
+            'year': self.created_at.year,
+            'month': self.created_at.month,
+            'day': self.created_at.day,
+            'slug': self.slug
+        })
 
 class Comment(BaseModel):
-    email = models.EmailField(unique=True)
-    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='comments', null=False)
+    article = models.ForeignKey('Article', on_delete=models.CASCADE, related_name='comment_set')
+    email = models.EmailField()
 
     def __str__(self):
-        return f"{self.short_text} ({self.email})"
+        return self.short_text
