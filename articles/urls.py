@@ -14,8 +14,8 @@ urlpatterns = [
          name='detail'
          ),
     path(
-        'comment-success/<slug:slug>/',
-         views.comment_success,
-         name='comment-success'
+        'articles/comment-success/<slug:slug>/',
+        views.comment_success,
+        name='comment-success'
     ),
 ]

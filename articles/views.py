@@ -63,10 +63,10 @@ def article_detail(request, year, month, day, slug):
                 email=email,
                 long_text=long_text,
             )
-            return redirect('articles:comment-success', article_slug=article.slug)
+            return redirect('articles:comment-success', slug=article.slug)
     comments = article.comment_set.all()
     related_articles = Article.objects.filter(
-        Q(author=article.author) | Q(short_text__icontains=article.short_text.split()[0])
+        Q(author=article.author) | Q(short_text__icontains=article.long_text.split()[0])
     ).exclude(id=article.id)[:3]
     return render(request, 'articles/blog-detail.html', {
         'article': article,

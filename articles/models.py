@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+import random
 from django.utils.text import slugify
 
 
@@ -15,8 +16,8 @@ class BaseModel(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.short_text)
-        super(BaseModel, self).save(*args, **kwargs)
+            self.slug = slugify(f"{self.short_text} {random.randint(1, 100)}")
+        super().save(*args, **kwargs)
 
 
 class Author(BaseModel):
@@ -41,6 +42,7 @@ class Article(BaseModel):
             'slug': self.slug
         })
 
+
 class Comment(BaseModel):
     article = models.ForeignKey('Article', on_delete=models.CASCADE, related_name='comment_set')
     email = models.EmailField()
@@ -48,25 +50,10 @@ class Comment(BaseModel):
     def __str__(self):
         return self.short_text
 
-
-# def comment_create(request, pk):
-#     article = get_object_or_404(Article, pk=pk)
-#
-#     if request.method == 'POST':
-#         name = request.POST.get('name')
-#         email = request.POST.get('email')
-#         comment = request.POST.get('comment')
-#         if name and email and comment:
-#             Comment.objects.create(
-#                 article=article,
-#                 name=name,
-#                 email=email,
-#                 comment=comment,
-#             )
-#             return redirect('articles:success_commented', pk=article.pk)
-#     comments = Comment.objects.filter(article=article)
-#     ctx = {
-#         'article': article,
-#         'comments': comments,
-#     }
-#     return render(request, 'articles/blog-detail.html', ctx)
+    def get_detail_url(self):
+        return reverse('articles:detail', kwargs={
+            'year': self.created_at.year,
+            'month': self.created_at.month,
+            'day': self.created_at.day,
+            'slug': self.article.slug
+        })

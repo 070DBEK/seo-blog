@@ -18,8 +18,9 @@
         <h2>Izohlar ({{ comments.count }})</h2>
         {% for comment in comments %}
             <div class="comment">
-                <h3>{{ comment.short_text }}</h3>
+                <p>{{ comment.short_text }}</p>
                 <p>{{ comment.long_text }}</p>
+                <p><strong>{{ comment.email }}</strong></p>
             </div>
         {% empty %}
             <p>Izohlar yo'q.</p>
