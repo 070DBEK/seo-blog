@@ -44,35 +44,6 @@ def create_article(request):
     return render(request, 'articles/create-article.html', {'authors': authors})
 
 
-def create_comment(request):
-    if request.method == 'POST':
-        short_text = request.POST.get('short_text')
-        long_text = request.POST.get('long_text')
-        email = request.POST.get('email')
-        article_id = request.POST.get('article')
-
-        if not (short_text and long_text and email and article_id):
-            return render(request, 'articles/blog-detail.html', {
-                'error': 'All fields are required!'
-            })
-
-        article = get_object_or_404(Article, id=article_id)
-        comment = Comment(
-            short_text=short_text,
-            long_text=long_text,
-            email=email,
-            article=article
-        )
-        comment.save()
-        print("Comment saved:", comment)
-        return redirect('articles:comment-success', article_slug=article.slug)
-
-
-
-def comment_success(request, article_slug):
-    return render(request, 'articles/success-commented.html')
-
-
 def article_detail(request, year, month, day, slug):
     article = get_object_or_404(
         Article,
@@ -81,14 +52,29 @@ def article_detail(request, year, month, day, slug):
         created_at__month=month,
         created_at__day=day
     )
+    if request.method == 'POST':
+        short_text = request.POST.get('short_text')
+        long_text = request.POST.get('long_text')
+        email = request.POST.get('email')
+        if short_text and email and long_text:
+            Comment.objects.create(
+                article=article,
+                short_text=short_text,
+                email=email,
+                long_text=long_text,
+            )
+            return redirect('articles:comment-success', article_slug=article.slug)
     comments = article.comment_set.all()
-
     related_articles = Article.objects.filter(
         Q(author=article.author) | Q(short_text__icontains=article.short_text.split()[0])
     ).exclude(id=article.id)[:3]
-
     return render(request, 'articles/blog-detail.html', {
         'article': article,
         'comments': comments,
         'related_articles': related_articles
     })
+
+
+def comment_success(request, slug):
+    related_article = get_object_or_404(Article, slug=slug)
+    return render(request, 'articles/success-commented.html', {'related_article': related_article})

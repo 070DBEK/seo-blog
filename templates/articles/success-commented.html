@@ -8,7 +8,7 @@
         <div class="success-icon">✅</div>
         <h1>Izohingiz muvaffaqiyatli qoldirildi!</h1>
         <p>Rahmat! Sizning fikringiz biz uchun muhim.</p>
-        <a href="{% url 'articles:blog-detail' slug=article_slug %}" class="button">Maqolaga qaytish</a>
+        <a href="{% url 'articles:detail' related_article.created_at.year related_article.created_at.month related_article.created_at.day related_article.slug %}" class="button">Maqolaga qaytish</a>
         <a href="{% url 'home' %}" class="button">Asosiy sahifaga o'tish</a>
     </div>
 

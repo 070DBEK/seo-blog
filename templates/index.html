@@ -8,7 +8,7 @@
     <article class="post">
         <img src="{{ article.image.url }}" alt="{{ article.short_text }}">
         <h2>{{ article.short_text }}</h2>
-        <a href="{% url 'articles:article_detail' year=article.created_at.year month=article.created_at.month day=article.created_at.day slug=article.slug %}" class="read-more">
+        <a href="{% url 'articles:detail' year=article.created_at.year month=article.created_at.month day=article.created_at.day slug=article.slug %}" class="read-more">
             Batafsil o'qish
         </a>
     </article>

@@ -15,8 +15,8 @@
     <p>{{ article.long_text }}</p>
 
     <section class="comments">
-        <h2>Izohlar ({{ article.comment_set.count }})</h2>
-        {% for comment in article.comment_set.all %}
+        <h2>Izohlar ({{ comments.count }})</h2>
+        {% for comment in comments %}
             <div class="comment">
                 <h3>{{ comment.short_text }}</h3>
                 <p>{{ comment.long_text }}</p>
@@ -31,7 +31,6 @@
             {% if error %}
                 <p class="error">{{ error }}</p>
             {% endif %}
-            <input type="hidden" name="article" value="{{ article.id }}">
             <div>
                 <label for="short_text">Ismingiz:</label>
                 <input type="text" id="short_text" name="short_text" placeholder="Ismingizni kiriting" required>
@@ -52,7 +51,7 @@
     <section class="related-posts">
         {% for related_article in related_articles %}
             <div class="related-post">
-                <a href="{{ related_article.get_absolute_url }}">
+                <a href="{% url 'articles:detail' related_article.created_at.year related_article.created_at.month related_article.created_at.day related_article.slug %}">
                     <img src="{{ related_article.image.url }}" alt="{{ related_article.short_text }}">
                     <h3>{{ related_article.short_text }}</h3>
                 </a>
@@ -61,7 +60,6 @@
             <p>O'xshash maqolalar topilmadi.</p>
         {% endfor %}
     </section>
-
 </article>
 
 {% endblock %}
